@@ -1,8 +1,9 @@
+
 local Ip = game.Players.LocalPlayer
 local function getNPC()
     local dist, thing = math.huge
-    for i,v in pairs(game:GetService('Workspace').Folders.Monster:GetChildren()) do
-        if v::FindFirstChild('HumanoiRootPart') then
+    for i,v in pairs(game:GetService('Workspace').Enemies:GetChildren()) do
+        if v::FindFirstChild('Bandit [Lv. 5]') then
             local mag = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.HumanoidRootPart.Position).magnitube
             if mag < dist then
                 dist = mag
@@ -27,7 +28,28 @@ local function noclip()
 end
 
 local function moveto(obj, speed)
-    local info = TweenInfo.new(((game.Players.LocalPlayer.Character.HumanoidRootPart.Position - obj.Position).Magnitude)/speed)
+    local info = TweenInfo.new(((game.Players.LocalPlayer.Character.HumanoidRootPart.Position - obj.Position).Magnitude)/speed )
+    local tween = TweenService:create(game.Players.LocalPlayer.Character.HumanoidRootPart, info, {CFrame = obj})
+
+    if not game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild('BodyVelocity') then
+        antifall = Instance.new('BodyVelocity', game.Players.LocalPlayer.Character.HumanoidRootPart)
+        antifall.Velocity = Vector3.new(0,0,0)
+        noclipE = game:GetService('RunService').Stepped:Connect(noclip)
+        tween:Play()
+    end
+
+    tween.Completed:Connect(function ()
+        antifall:Destroy()
+        noclipE:Disconnect()
+    end)
+end
+getgenv().bandit = true
+while bandit do task wait ()
+    pcall(function ()
+        moveto(getNPC().HumanoidRootPart.CFrame + Vector3.new(5,5,5), 100)
+        game:GetService('VirtualUser'):ClickButton1(Vector2.new(9e9, 9e9))
+    end)
+end
     
         
 
