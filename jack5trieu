@@ -2,7 +2,7 @@ local Ip = game.Players.LocalPlayer
 local function getNPC()
     local dist, thing = math.huge
     for i,v in pairs(game:GetService('Workspace').Enemies:GetChildren()) do
-        if v::FindFirstChild('Bandit [Lv. 5]') then
+        if v::FindFirstChild('Bandit [Lv.5]') then
             local mag = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.HumanoidRootPart.Position).magnitube
             if mag < dist then
                 dist = mag
